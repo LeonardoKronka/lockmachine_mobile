@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LockMachine — Simulador de Controle de Acesso</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand-icon" aria-hidden="true">▣</div>
+      <div><p class="eyebrow">CENTRAL DE DEMONSTRAÇÃO</p><h1>LOCKMACHINE</h1><p>Simulador de Controle de Acesso</p></div>
+      <span class="pill">PDM / SENAI</span>
+    </header>
+    <section class="connection" aria-label="Conexão Firebase">
+      <span id="status-dot" class="dot"></span>
+      <div><strong id="connection-title">Verificando Firebase Admin SDK…</strong><p id="connection-detail">Envio para o tópico lockmachine-supervisores</p></div>
+    </section>
+    <section class="flow" aria-label="Fluxo da Push">
+      <span>Browser</span><b aria-hidden="true">→</b><span>Express</span><b aria-hidden="true">→</b><span>Firebase Cloud Messaging</span><b aria-hidden="true">→</b><span>Tablet do Supervisor</span>
+    </section>
+    <div class="section-title"><div><p class="eyebrow">SIMULAR EVENTO</p><h2>O que aconteceu na máquina?</h2></div><p>Escolha um cenário para enviar uma Push real.</p></div>
+    <section class="grid" aria-label="Eventos de controle de acesso">
+      <button type="button" class="event critical" data-type="unauthorized_access" disabled><span class="event-icon" aria-hidden="true">🔴</span><span class="event-label">Acesso sem qualificação</span><span class="event-description">Carlos Henrique · Prensa Hidráulica 02</span><span class="event-reason">Operador não possui qualificação para esta máquina.</span><span class="event-footer">CRÍTICO <span aria-hidden="true">Enviar alerta →</span></span></button>
+      <button type="button" class="event warning" data-type="expired_qualification" disabled><span class="event-icon" aria-hidden="true">🟠</span><span class="event-label">Qualificação vencida</span><span class="event-description">João Silva · Torno CNC 03</span><span class="event-reason">Treinamento obrigatório vencido.</span><span class="event-footer">ATENÇÃO <span aria-hidden="true">Enviar alerta →</span></span></button>
+      <button type="button" class="event critical" data-type="blocked_machine" disabled><span class="event-icon" aria-hidden="true">🔴</span><span class="event-label">Máquina bloqueada</span><span class="event-description">Marcos Oliveira · Fresadora CNC 01</span><span class="event-reason">Máquina indisponível para operação.</span><span class="event-footer">CRÍTICO <span aria-hidden="true">Enviar alerta →</span></span></button>
+      <button type="button" class="event warning" data-type="qualification_expiring" disabled><span class="event-icon" aria-hidden="true">🟡</span><span class="event-label">Treinamento próximo do vencimento</span><span class="event-description">Lucas Martins · Centro de Usinagem 04</span><span class="event-reason">Qualificação vence em 5 dias.</span><span class="event-footer">ATENÇÃO <span aria-hidden="true">Enviar alerta →</span></span></button>
+      <button type="button" class="event success" data-type="authorized_access" disabled><span class="event-icon" aria-hidden="true">🟢</span><span class="event-label">Acesso autorizado</span><span class="event-description">Ana Souza · Torno CNC 01</span><span class="event-reason">Operador autorizado. Evento apenas didático.</span><span class="event-footer">AUTORIZADO <span aria-hidden="true">Enviar alerta →</span></span></button>
+      <aside class="explanation"><p class="eyebrow">DO RFID AO SUPERVISOR</p><h3>O evento é simulado.<br>A Push é real.</h3><p>No sistema LockMachine, a leitura do cartão RFID inicia a verificação de acesso. Aqui, os botões representam esses eventos.</p><p>A mensagem passa pelo Firebase e chega aos dispositivos inscritos no tópico de supervisores.</p><code>lockmachine-supervisores</code></aside>
+    </section>
+    <section id="result" class="result" role="status" aria-live="polite">Nenhum evento enviado nesta sessão.</section>
+    <footer>LOCKMACHINE MOBILE <span>Controle de acesso industrial · Demonstração escolar</span></footer>
+  </main>
+</body>
+</html>
