@@ -74,29 +74,18 @@ No Windows, ative **Modo de Desenvolvedor** se o Flutter informar que os plugins
 
 Não existe `firebase_options.dart` inventado, `google-services.json` fictício nem Service Account neste repositório. Antes da configuração, a interface funciona e o teste local pode ser usado no Android; o status mostra que o Firebase está pendente.
 
-1. Crie ou selecione um projeto real no [Firebase Console](https://console.firebase.google.com/).
-2. Instale as ferramentas oficiais, se ainda não estiverem disponíveis:
+**Não é preciso instalar `firebase-tools` nem `flutterfire_cli`.** Este app Android usa `Firebase.initializeApp()` sem `firebase_options.dart` e lê a configuração do `google-services.json`, que é baixado pelo navegador.
 
-```powershell
-npm install -g firebase-tools
-dart pub global activate flutterfire_cli
-firebase login
-```
+1. Crie ou selecione um projeto no [Firebase Console](https://console.firebase.google.com/). O Google Analytics pode ficar desativado.
+2. Na página do projeto, clique no ícone **Android** (ou **Configurações do projeto → Seus apps → Adicionar app → Android**).
+3. Em **Nome do pacote Android**, digite exatamente `com.example.push_notification`. Apelido e SHA-1 são opcionais. Clique em **Registrar app**.
+4. Clique em **Baixar google-services.json** e salve o arquivo em `android/app/google-services.json`. O nome tem que ser exatamente esse: se o Windows salvar como `google-services (1).json`, renomeie.
+5. Pule os passos seguintes do assistente do Firebase (adicionar SDK no Gradle): o plugin Google Services já está declarado no projeto e é aplicado automaticamente quando o JSON está presente.
+6. Desinstale o app do tablet, se já estiver instalado, e rode `flutter run` de novo. Hot reload não aplica mudanças na configuração Android.
 
-3. Na raiz deste projeto execute exatamente:
+Em projetos novos a **Firebase Cloud Messaging API (HTTP v1)** já vem ativada. Só verifique em **Configurações do projeto → Cloud Messaging** se o servidor retornar erro de permissão no envio.
 
-```powershell
-flutterfire configure
-```
-
-Selecione seu projeto e a plataforma **Android**. Use o aplicativo Android com package name `com.example.push_notification`. Se a CLI não estiver no PATH, use `dart pub global run flutterfire_cli:flutterfire configure`.
-
-4. Confirme que o processo oficial gerou `lib/firebase_options.dart` e `android/app/google-services.json`. Se a CLI não produzir o JSON Android, baixe a configuração cliente do mesmo app pelo Firebase Console e coloque-a em `android/app/google-services.json`. Nunca crie valores fictícios.
-5. O plugin Google Services já está declarado no Gradle e é aplicado quando o JSON real está presente. Ele converte o JSON em recursos nativos; **esta implementação Android usa `Firebase.initializeApp()` sem opções explícitas**, lendo esses recursos tanto no app quanto no handler de background. Por isso não importa um arquivo inexistente antes da configuração. O `firebase_options.dart` oficialmente gerado pode permanecer no projeto; ele não é necessário nesse caminho Android. Outras plataformas exigiriam usar as opções oficiais e configuração específica.
-6. Garanta que a **Firebase Cloud Messaging API (HTTP v1)** esteja habilitada no projeto e que a Service Account possa enviar mensagens pelo FCM.
-7. Recompile/reinstale o app após configurar o Firebase. Hot reload não aplica mudanças na configuração Android.
-
-Referência: [Configuração oficial FlutterFire](https://firebase.google.com/docs/flutter/setup) e [configuração Android Firebase](https://firebase.google.com/docs/android/setup).
+Referência: [configuração Android Firebase](https://firebase.google.com/docs/android/setup).
 
 ## Service Account — somente no servidor
 
@@ -217,6 +206,6 @@ O build release original ainda usa assinatura de debug e identificador `com.exam
 - Inicialização real de `node server.js`: painel HTTP 200, status de configuração pendente e acesso à Service Account HTTP 404. Servidor de verificação encerrado após os checks.
 - `flutter build apk --debug`: concluído. Artefato: `build/app/outputs/flutter-apk/app-debug.apk`.
 
-Esse APK foi compilado **sem configuração Firebase** e serve para conferir a interface e o teste local no Android. Após `flutterfire configure`, gere ou execute novamente para incluir a configuração real. Recebimento FCM, permissão no tablet e entrega com app aberto, em background ou encerrado ainda exigem validação no dispositivo real.
+Esse APK foi compilado **sem configuração Firebase** e serve para conferir a interface e o teste local no Android. Após colocar o `google-services.json`, gere ou execute novamente para incluir a configuração real. Recebimento FCM, permissão no tablet e entrega com app aberto, em background ou encerrado ainda exigem validação no dispositivo real.
 
 O Gradle informou avisos provenientes dos plugins sobre uso de APIs Android depreciadas e a migração futura do Kotlin em `firebase_core`; eles não impediram o build e não são problemas apontados pelo analisador Dart. Foi preservada a configuração Kotlin do template Flutter atual.

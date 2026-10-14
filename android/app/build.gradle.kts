@@ -45,7 +45,7 @@ flutter {
 }
 
 // Keep the local demonstration buildable before Firebase is configured.
-// The real file is created by flutterfire configure; never use a placeholder.
+// The real file is downloaded from the Firebase Console; never use a placeholder.
 if (file("google-services.json").exists()) {
     apply(plugin = "com.google.gms.google-services")
 }

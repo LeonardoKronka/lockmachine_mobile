@@ -92,7 +92,7 @@ class NotificationService extends ChangeNotifier {
       localError = 'Não foi possível preparar notificações locais: $error';
     }
     try {
-      // Native Android resources come from flutterfire configure.
+      // Native Android resources come from android/app/google-services.json.
       // Keep the app compilable before any real Firebase configuration exists.
       if (Firebase.apps.isEmpty) await Firebase.initializeApp();
       _firebaseReady = true;
@@ -108,7 +108,7 @@ class NotificationService extends ChangeNotifier {
       subscribed = false;
       connectionError = _firebaseReady
           ? 'Não foi possível registrar o dispositivo no FCM. Verifique a internet e tente novamente.'
-          : 'Firebase ainda não configurado. Execute flutterfire configure e reinstale o aplicativo.';
+          : 'Firebase ainda não configurado. Coloque o google-services.json em android/app e reinstale o aplicativo.';
       debugPrint('Falha ao inicializar FCM: $error');
       if (!_firebaseReady && _localReady) {
         try {
